@@ -1,0 +1,21 @@
+.eventos {
+    display: flex;
+    border: 1px solid red;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+.img {
+    width: 100px;
+}
+
+.divImg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.divInfos {
+    margin-left: 25px;
+    padding-right: 15px;
+}
