@@ -88,15 +88,26 @@ export const Barra = () => {
             <div>
                 { load  ? 
                     <div>
-                        <p>console: { console.log( 'console: ', rastreioObj ) }</p>
-                        <p>pesquisa:{restreio.pesquisa}</p>
-                        <p>categoria: { rastreioObj.categoria ? rastreioObj.categoria : '' }</p>
-                        <p>quantidade: {restreio.quantidade}</p>
-                        <p>resultado: {restreio.resultado}</p>
-                        <p>eventos: </p>
-                        { rastreioObj ? rastreioObj.evento.map(e => {
-                            let imagem = defineImg(e)  
-                            return (<Eventos evObj={e} img={ imagem } />)
+                        <table>
+                            <thead>
+                                <th>Pesquisa</th>
+                                <th>Categoria</th>
+                                <th>Quantidade</th>
+                                <th>Resultado</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{restreio.pesquisa}</td>
+                                    <td>{ rastreioObj.categoria ? rastreioObj.categoria : '' }</td>
+                                    <td>{restreio.quantidade}</td>
+                                    <td>{restreio.resultado}</td>
+                                </tr>
+                            </tbody>
+                            </table>
+                            <p>eventos: </p>
+                            { rastreioObj ? rastreioObj.evento.map(e => {
+                                let imagem = defineImg(e)  
+                                return (<Eventos evObj={e} img={ imagem } />)
                             } ) : '' }
                     </div>
                     
