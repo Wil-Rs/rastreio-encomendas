@@ -10,12 +10,14 @@ import ficalizando from './../../assets/img/inspection.png'
 import ficalizacaoFinalizado from './../../assets/img/okay.png'
 import saiuEntregar from './../../assets/img/entrega.png'
 import postadoImg from './../../assets/img/send.png'
+import loading from './../../assets/img/loading.gif'
 
 export const Barra = () => {
     const [codigo,  setCodigo] = useState('')
     const [restreio, setRastreio] = useState()
     const [rastreioObj, setRastreioObj] = useState()
-    const [img, setImg] = useState()
+    const [load, setLoad] = useState(false)
+    const [msg, setMsg] = useState('Esperando...')
 
     const defineImg = (evObj) => {
         if( evObj.descricao == 'Objeto recebido pelos Correios do Brasil'){
@@ -42,6 +44,8 @@ export const Barra = () => {
     
 
     const rastrear = () => {
+        setLoad(false)
+        setMsg('Vamos Lá')
         if(codigo.trim().length == 13){
             axios.post('https://correios.contrateumdev.com.br/api/rastreio', {
                 "code": codigo,
@@ -49,10 +53,16 @@ export const Barra = () => {
             }).then(resp => {
                 setRastreio(resp.data)
                 setRastreioObj(resp.data.objeto[0])
-                console.log('conteceu algo aqui')
+                if( resp.data.objeto[0].categoria == 'ERRO: Objeto não encontrado na base de dados dos Correios.' ){
+                    setLoad(false)
+                    setMsg('Não encontrado ou Aguardando postagem pelo remetente.')
+                }else {
+                    setLoad(true)
+                    setMsg('Encontrado')
+                }
             }).catch(e => {
-                alert('Aguardando postagem pelo remetente.')
-                setRastreio(null)
+                alert('Não encontrado ou Aguardando postagem pelo remetente.')
+                setMsg('Não encontrado ou Aguardando postagem pelo remetente.')
                 return
             })
         }else{
@@ -76,10 +86,11 @@ export const Barra = () => {
             >Rastrear</button>
             <h3>{ restreio ? `Rastreando: ${codigo}` : '' }</h3>
             <div>
-                {rastreioObj ? 
+                { load  ? 
                     <div>
+                        <p>console: { console.log( 'console: ', rastreioObj ) }</p>
                         <p>pesquisa:{restreio.pesquisa}</p>
-                        {/* <p>categoria: { rastreioObj.categoria ? rastreioObj.categoria : '' }</p> */}
+                        <p>categoria: { rastreioObj.categoria ? rastreioObj.categoria : '' }</p>
                         <p>quantidade: {restreio.quantidade}</p>
                         <p>resultado: {restreio.resultado}</p>
                         <p>eventos: </p>
@@ -89,7 +100,7 @@ export const Barra = () => {
                             } ) : '' }
                     </div>
                     
-                    : 'nada' 
+                    :  <div className="msgGif"> {msg} { msg == 'Não encontrado ou Aguardando postagem pelo remetente.' || msg == 'Esperando...' ? '' : <img src={loading} /> } </div>
 
                 }
             </div>
