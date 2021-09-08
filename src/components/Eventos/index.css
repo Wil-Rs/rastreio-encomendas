@@ -3,6 +3,18 @@
     border: 1px solid red;
     margin-bottom: 5px;
     padding: 5px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.eventos img {
+    width: 100px;
+}
+
+.card-img-top{
+    margin-left: 40%;
 }
 
 .img {
